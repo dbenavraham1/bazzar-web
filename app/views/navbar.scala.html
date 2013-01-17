@@ -1,0 +1,63 @@
+@(categories: play.api.libs.json.JsValue)
+
+@import play.api.libs.json._
+
+@main("navbar") {
+
+<div class="container">
+    <div class="row">
+        <div class="span6">
+            <ul class="nav nav-pills">
+                @for(cat1 <- categories.as[List[JsValue]]) {
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">@((cat1 \ "name").as[String])<b class="caret bottom-up"></b></a>
+                        <ul class="dropdown-menu">
+                            @for(cat2 <- (cat1.as[JsValue] \ "categories").as[List[JsValue]]) {
+                                <li class="cat-header"><a href="#" class="bold">@((cat2 \ "name").as[String])</a></li>
+                                <li class="divider"></li>
+                                @for(cat3 <- (cat2.as[JsValue] \ "categories").as[List[JsValue]]) {
+                                    <li class="category-child"><a href="#" class="gray">@((cat3 \ "name").as[String])</a></li>
+                                }
+                                <li class="spacer"></li>
+                            }
+                        </ul>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- div class="container">
+    <div class="row">
+        <div class="span6">
+            <ul class="nav nav-pills">
+                <li class="active"><a href="#">Home</a></li>
+                <li><a href="#">About</a></li>
+                <li class="dropdown"><a class="dropdown-toggle"
+                    data-toggle="dropdown" href="#">FrontEnd<b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Twitter Bootstrap</a></li>
+                        <li><a href="#">Google Plus API</a></li>
+                        <li><a href="#">HTML5</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#">Examples</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown"><a class="dropdown-toggle"
+                    data-toggle="dropdown" href="#">BackEnd<b
+                        class="caret bottom-up"></b></a>
+                    <ul class="dropdown-menu bottom-up pull-right">
+                        <li><a href="#">PHP</a></li>
+                        <li><a href="#">MySQL</a></li>
+                        <li><a href="#">PostgreSQL</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#">Live Demos</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div -->
+
+}
