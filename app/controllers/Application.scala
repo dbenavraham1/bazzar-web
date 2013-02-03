@@ -14,7 +14,7 @@ object Application extends Controller {
 
   def navbar(id: Long) = Action {
     Async {
-      WS.url("http://localhost:9000/clients/" + id + "/categories").get().map { response =>
+      WS.url("http://yben.no-ip.org:8080/bazzar_base/categories/").get().map { response =>
         Ok(views.html.navbar(response.json))
       }
     }

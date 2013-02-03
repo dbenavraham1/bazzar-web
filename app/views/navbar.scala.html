@@ -8,15 +8,15 @@
     <div class="row">
         <div class="span6">
             <ul class="nav nav-pills">
-                @for(cat1 <- categories.as[List[JsValue]]) {
+                @for(cat1 <- ((categories \ "menu").as[JsValue]).as[List[JsValue]]) {
                     <li class="dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">@((cat1 \ "name").as[String])<b class="caret bottom-up"></b></a>
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">@((cat1 \ "attribute").as[String])<b class="caret bottom-up"></b></a>
                         <ul class="dropdown-menu">
-                            @for(cat2 <- (cat1.as[JsValue] \ "categories").as[List[JsValue]]) {
-                                <li class="cat-header"><a href="#" class="bold">@((cat2 \ "name").as[String])</a></li>
+                            @for(cat2 <- (cat1.as[JsValue] \ "subCategory").as[List[JsValue]]) {
+                                <li class="cat-header"><a href="#" class="bold">@((cat2 \ "attribute").as[String])</a></li>
                                 <li class="divider"></li>
-                                @for(cat3 <- (cat2.as[JsValue] \ "categories").as[List[JsValue]]) {
-                                    <li class="category-child"><a href="#" class="gray">@((cat3 \ "name").as[String])</a></li>
+                                @for(cat3 <- (cat2.as[JsValue] \ "product").as[List[JsValue]]) {
+                                    <li class="category-child"><a href="#" class="gray">@((cat3 \ "attribute").as[String])</a></li>
                                 }
                                 <li class="spacer"></li>
                             }
