@@ -45,7 +45,7 @@ body {
     top: 11px;
     left: -6px;
 }
-​
+
 .cat-header {
    margin-top: 1em;
 }
@@ -64,4 +64,65 @@ body {
 
 .spacer {
 	padding-top: .6em;
+}
+
+.container-fluid-main {
+    padding-top: 9px;
+}
+
+.row-fluid-main {
+    padding-top: 9px;
+    padding-bottom: 9px;
+}
+
+.row-fluid-header {
+    background-color: #bbd8e9;
+    border: 1px solid #ddd;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+    -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.075);
+    -moz-box-shadow: 0 1px 2px rgba(0,0,0,.075);
+    box-shadow: 0 1px 2px rgba(0,0,0,.075);
+}
+
+.span3-base {
+    margin-top: 1em;
+    min-width: 12em;
+}
+
+.span3-sidebar {
+    background-color: #bbd8e9;
+    border: 1px solid #ddd;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+    -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.075);
+    -moz-box-shadow: 0 1px 2px rgba(0,0,0,.075);
+    box-shadow: 0 1px 2px rgba(0,0,0,.075);
+    height: 300px;
+}
+
+.span9-content {
+    background-color: #dceaf4;
+    border: 1px solid #ddd;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+    -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.075);
+    -moz-box-shadow: 0 1px 2px rgba(0,0,0,.075);
+    box-shadow: 0 1px 2px rgba(0,0,0,.075);
+    padding: 9px;
+    height: 300px;
+}
+
+.row-fluid-footer {
+    background-color: #bbd8e9;
+    border: 1px solid #ddd;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+    -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.075);
+    -moz-box-shadow: 0 1px 2px rgba(0,0,0,.075);
+    box-shadow: 0 1px 2px rgba(0,0,0,.075);
 }

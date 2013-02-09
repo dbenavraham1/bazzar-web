@@ -8,7 +8,11 @@ GET     /                                 controllers.Application.index
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file                     controllers.Assets.at(path="/public", file)
 
-GET     /clients/:id/navbar               controllers.Application.navbar(id: Long)
-
 # Categories
 GET     /clients/:id/categories           @controllers.Categories.list(id: Long)
+
+GET     /product/:id                      @controllers.Products.detail(id: Long)
+
+GET     /subcategory/:id                  @controllers.SubCategories.detail(id: Long)
+
+GET     /category/:id                     @controllers.Categories.detail(id: Long)

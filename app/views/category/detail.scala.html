@@ -1,0 +1,9 @@
+@(category: play.api.libs.json.JsValue, sidebar: Html)(implicit common: Common)
+
+@import play.api.libs.json._
+
+@main("Bazzar Store - Category Detail", sidebar) {
+
+    <div>@((category \ "attribute").as[String])</div>
+
+}

@@ -1,26 +1,13 @@
-@(implicit common: Common)
+@(menu: play.api.libs.json.JsValue)(implicit common: Common)
 
 @import play.api.libs.json._
 
 <div class="container-fluid">
     <div class="row">
-        <div class="span6">
-            <ul class="nav nav-pills">
-                <li><a href="@routes.Application.index">Home</a></li>
-                @for(cat1 <- ((common.header.menu).as[JsValue]).as[List[JsValue]]) {
-                    <li class="dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown" href='@routes.Categories.detail((cat1 \ "id").as[Long])'>@((cat1 \ "attribute").as[String])<b class="caret bottom-up"></b></a>
-                        <ul class="dropdown-menu">
-                            @for(cat2 <- (cat1.as[JsValue] \ "subCategory").as[List[JsValue]]) {
-                                <li class="cat-header"><a href='@routes.SubCategories.detail((cat2 \ "id").as[Long])' class="bold">@((cat2 \ "attribute").as[String])</a></li>
-                                <li class="divider"></li>
-                                @for(cat3 <- (cat2.as[JsValue] \ "product").as[List[JsValue]]) {
-                                    <li class="category-child"><a href='@routes.Products.detail((cat3 \ "id").as[Long])' class="gray">@((cat3 \ "attribute").as[String])</a></li>
-                                }
-                                <li class="spacer"></li>
-                            }
-                        </ul>
-                    </li>
+        <div class="span3 span3-base">
+            <ul>
+                @for(subCat <- ((menu).as[JsValue]).as[List[JsValue]]) {
+                    <li><a href='@routes.SubCategories.detail((subCat \ "id").as[Long])'>@((subCat \ "attribute").as[String])</a></li>
                 }
             </ul>
         </div>
