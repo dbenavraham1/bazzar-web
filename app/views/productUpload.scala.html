@@ -1,0 +1,27 @@
+@(message: String)(implicit common: Common, request: RequestHeader, 
+flash: Flash, l: Lang=Lang("en"))
+
+@import play.api.i18n._
+@import views.html.helper._
+@import controllers.ProductUpload
+
+@main("Product Upload") { 
+
+ @if(flash.data.contains("message")){ 
+   <div class="alert alert-success">@flash.get("message")</div>
+ } 
+ 
+ @if(flash.data.contains("errormessage")){  
+   <div class="alert alert-error">@flash.get("errormessage")</div>
+ }
+ 
+ @form(action = routes.ProductUpload.upload, 'enctype -> "multipart/form-data") {
+    
+    <input type="file" name="fileupload">
+    
+    <p>
+        <input type="submit" value="Upload CSV" class="btn btn-primary">
+    </p>
+    
+}
+}

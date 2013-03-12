@@ -22,11 +22,11 @@ trait ProvidesHeader extends Controller {
 
   implicit def common[A](implicit request: Request[A]): Common = {
     val result: Future[JsValue] =
-      WS.url("http://yben.no-ip.org:8080/bazzar_base/categories/")
+      WS.url("http://localhost:8080/bazzar_base/categories/")
         .withTimeout(2000)
         .get
         .map { response => response.json }
-    val menu: JsValue = Await.result(result, Duration.Inf) \ "menu"
+    val menu: JsValue = Await.result(result, Duration.Inf) \ "category"
     Common(Header(menu), Sidebar(request.path))
   }
 

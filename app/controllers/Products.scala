@@ -10,8 +10,8 @@ class Products extends Controller with ProvidesHeader {
 
   def detail(id: Long) = Action { implicit request =>
     Async {
-      WS.url("http://yben.no-ip.org:8080/bazzar_base/product/" + id + "/").get().map { response =>
-        Ok(views.html.product.detail(response.json \ "menu"))
+      WS.url("http://localhost:8080/bazzar_base/product/" + id + "/").get().map { response =>
+        Ok(views.html.product.detail(response.json \ "product"))
       }
     }
   }

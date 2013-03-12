@@ -10,9 +10,9 @@ class SubCategories extends Controller with ProvidesHeader {
 
   def detail(id: Long) = Action { implicit request =>
     Async {
-      WS.url("http://yben.no-ip.org:8080/bazzar_base/subCategory/" + id + "/").get().map { response =>
-        val menu: JsValue = response.json \ "menu"
-        Ok(views.html.subcategory.detail(menu, views.html.subcategory.sidebar(menu \ "product")))
+      WS.url("http://localhost:8080/bazzar_base/subCategory/" + id + "/").get().map { response =>
+        val subCategory: JsValue = response.json \ "subcategory"
+        Ok(views.html.subcategory.detail(subCategory, views.html.subcategory.sidebar(subCategory \ "product")))
       }
     }
   }

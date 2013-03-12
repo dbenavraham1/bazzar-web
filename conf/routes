@@ -16,3 +16,11 @@ GET     /product/:id                      @controllers.Products.detail(id: Long)
 GET     /subcategory/:id                  @controllers.SubCategories.detail(id: Long)
 
 GET     /category/:id                     @controllers.Categories.detail(id: Long)
+
+# This get request to load upload form
+GET     /productupload                    controllers.ProductUpload.index
+
+# This post request for send csv file to back end
+POST    /productupload/upload             controllers.ProductUpload.upload
+
+GET     /downloadProducts/:fileName       controllers.ProductUpload.downloadProducts(fileName: String)
