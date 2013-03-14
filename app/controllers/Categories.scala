@@ -11,7 +11,7 @@ class Categories extends Controller with ProvidesHeader {
 
   def detail(id: Long) = Action { implicit request =>
     Async {
-      WS.url("http://localhost:8080/bazzar_base/category/" + id + "/").get().map { response =>
+      WS.url("http://localhost:8080/bazzar_online/menu/category/" + id + "/").get().map { response =>
         val category: JsValue = response.json \ "category"
         Ok(views.html.category.detail(category, views.html.category.sidebar(category \ "subCategory")))
       }

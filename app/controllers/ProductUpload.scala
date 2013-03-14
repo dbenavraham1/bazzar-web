@@ -57,7 +57,7 @@ object ProductUpload extends Controller with ProvidesHeader {
       "importItemDownlaodUrl" -> JsString("http://localhost:9000/downloadProducts/" + fileName) ::
         Nil)
     val result: Future[JsValue] =
-      WS.url("http://localhost:8080/bazzar_base/item/import/job")
+      WS.url("http://localhost:8080/bazzar_online/item/import/job")
         .withTimeout(2000)
         .post(jobParams)
         .map { response => response.json }
