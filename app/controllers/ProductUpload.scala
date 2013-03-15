@@ -2,7 +2,6 @@ package controllers
 
 import play.api.mvc._
 import play.api.data.Forms._
-import au.com.bytecode.opencsv.CSVReader
 import java.io.FileReader
 import java.io.InputStreamReader
 import java.io.FileInputStream
@@ -32,7 +31,7 @@ object ProductUpload extends Controller with ProvidesHeader {
   //
   def upload = Action(parse.multipartFormData) { request =>
     request.body.file("fileupload").map { file =>
-      //moving csv file to application
+      //moving file to application
       file.ref.moveTo(new File(Play.application.path +
         filePath + file.filename), true)
 
