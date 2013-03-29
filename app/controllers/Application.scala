@@ -9,11 +9,13 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.concurrent.Await
 import scala.concurrent.duration.Duration
+import java.util.UUID
 
 object Application extends Controller with ProvidesHeader {
 
   def index = Action { implicit request =>
-    Ok(views.html.index("Bazzar Store"))
+    Ok(views.html.index("Bazzar Store")).withSession(
+      session + ("token" -> UUID.randomUUID().toString()))
   }
 
 }

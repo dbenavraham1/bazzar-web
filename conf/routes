@@ -11,6 +11,14 @@ GET     /assets/*file                     controllers.Assets.at(path="/public", 
 # Categories
 GET     /clients/:id/categories           @controllers.Categories.list(id: Long)
 
+GET     /item/:id                         @controllers.Items.detail(id: Long)
+
+GET     /cart                             @controllers.Cart.index
+
+GET     /cart/:id                         @controllers.Cart.detail(id: Long)
+
+GET     /cart/:id/detail/:detailId        @controllers.Cart.delete(id: Long, detailId: Long)
+
 GET     /product/:id                      @controllers.Products.detail(id: Long)
 
 GET     /subcategory/:id                  @controllers.SubCategories.detail(id: Long)

@@ -4,13 +4,12 @@
 
 <div class="container-fluid">
     <div class="row">
-        <div class="span3 span3-base">
-            <ul>
-                @for(product <- ((menu).as[JsValue]).as[List[JsValue]]) {
-                    <li><a href='@routes.Products.detail((product \ "id").as[Long])'>@((product \ "attribute").as[String])</a></li>
-                }
-            </ul>
-        </div>
+        <ul class="nav nav-list">
+            @for(product <- ((menu).as[JsValue]).as[List[JsValue]]) {
+                <li class="divider"></li>
+                <li><a href='@routes.Products.detail((product \ "id").as[Long])'>@((product \ "attribute").as[String])</a></li>
+            }
+        </ul>
     </div>
 </div>
 

@@ -1,0 +1,27 @@
+@(cart: play.api.libs.json.JsValue)(implicit common: Common)
+
+@import play.api.libs.json._
+
+@main("Bazzar Store - Cart Detail") {
+
+    <ul class="nav nav-list">
+        @if(!(cart \ "detail").asOpt[Seq[JsValue]].isEmpty) {
+        @for(detail <- (cart \ "detail").as[Set[JsValue]]) {
+            <li class="divider"></li>
+            <li>
+                <div class="container-fluid">
+                    <div class="row-fluid">
+                        <div class="span9">
+                            <a href='@routes.Items.detail((detail \ "itemId").as[Long])'>@((detail \ "subject").as[String])</a>
+                        </div>
+                        <div class="span3">
+                            <a class="btn btn-primary" href='@routes.Cart.delete((cart \ "id").as[Long], (detail \ "id").as[Long])'>Delete</a>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        }
+        }
+    </ul>
+
+}

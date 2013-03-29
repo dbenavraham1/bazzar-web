@@ -1,0 +1,9 @@
+@(item: play.api.libs.json.JsValue)(implicit common: Common)
+
+@import play.api.libs.json._
+
+@main("Bazzar Store - Item Detail") {
+
+    <div>@((item \ "subject").as[String])</div>
+
+}

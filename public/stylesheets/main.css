@@ -86,7 +86,7 @@ body {
 }
 
 .span3-sidebar {
-    background-color: #bbd8e9;
+//    background-color: #bbd8e9;
     border: 1px solid #ddd;
     -webkit-border-radius: 6px;
     -moz-border-radius: 6px;
@@ -98,7 +98,7 @@ body {
 }
 
 .span9-content {
-    background-color: #dceaf4;
+//    background-color: #dceaf4;
     border: 1px solid #ddd;
     -webkit-border-radius: 6px;
     -moz-border-radius: 6px;
