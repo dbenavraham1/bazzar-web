@@ -1,0 +1,84 @@
+#!/bin/bash
+#
+# /etc/init.d/play
+#
+# Starts the play Play Framework daemon
+#
+
+### BEGIN INIT INFO
+# Provides: play
+# Required-Start: $local_fs $remote_fs $network $syslog
+# Required-Stop: $local_fs $remote_fs $network $syslog
+# Default-Start: 2 3 4 5
+# Default-Stop: 0 1 6
+# Short-Description: Start play server at boot time
+### END INIT INFO
+
+### BEGIN vars
+PORT=9000
+BASE_DIR=/opt/apps/bazzar
+ENV=/prod
+APP=/bazzar-web
+PLAY_VERSION=play-2.1.0
+USER=root
+### END vars
+
+#export _JAVA_OPTIONS="-Xms64m -Xmx1024m -Xss2m"
+
+# Exit immediately if a command exits with a nonzero exit status.
+set -e
+
+update() {
+    echo "Updating project..."
+    
+    cd $BASE_DIR$ENV$APP
+
+    # Updating the project
+    git pull origin master
+
+    # Creating new project (MUST BE ON THE GOOD DIR)
+    /opt/$PLAY_VERSION/play clean compile stage
+}
+
+start() {
+    echo "Starting the server..."
+
+    /sbin/start-stop-daemon --start --quiet --oknodo --user $USER --chuid $USER --background --exec $BASE_DIR$ENV$APP"/target/start" -- "-Dhttp.port="$PORT" -Dconfig.file="$BASE_DIR$ENV$APP"/conf/application.conf"
+#    /sbin/start-stop-daemon --start --background --exec $BASE_DIR$ENV$APP"/target/start"
+
+    echo "Play server started"
+}
+
+stop() {
+    echo "Stopping server"
+
+    /sbin/start-stop-daemon --stop --quiet --oknodo --user $USER --chuid $USER --pidfile $BASE_DIR$ENV$APP"/RUNNING_PID"
+    rm -f $BASE_DIR$ENV$APP"/RUNNING_PID"
+}
+
+case "$1" in
+    start)
+        update
+        start
+    ;;
+    force-start)
+        start
+    ;;
+    stop)
+        stop
+    ;;
+    restart)
+        stop
+        update
+        start
+    ;;
+    force-restart)
+        stop
+        start
+    ;;
+    *)
+        echo $"Usage: $0 {start|force-start|stop|restart|force-restart}"
+esac
+
+exit 0
+
