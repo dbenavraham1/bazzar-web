@@ -14,8 +14,7 @@ import java.util.UUID
 object Application extends Controller with ProvidesHeader {
 
   def index = Action { implicit request =>
-    Ok(views.html.index("Bazzar Store")).withSession(
-      session + ("token" -> UUID.randomUUID().toString()))
+    Ok(views.html.index("Bazzar Store"))
   }
 
 }
@@ -23,6 +22,12 @@ object Application extends Controller with ProvidesHeader {
 trait ProvidesHeader extends Controller {
 
   implicit def common[A](implicit request: Request[A]): Common = {
+    session.get("token").map { token =>
+      // Do nothing
+    }.getOrElse {
+      session + ("token" -> UUID.randomUUID().toString())
+    }
+
     val result: Future[JsValue] =
       WS.url("http://localhost:8080/bazzar_online/menu/category/")
         .withTimeout(2000)

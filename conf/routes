@@ -19,6 +19,8 @@ GET     /cart/:id                         @controllers.Cart.detail(id: Long)
 
 GET     /cart/:id/detail/:detailId        @controllers.Cart.delete(id: Long, detailId: Long)
 
+POST    /cart/detail                      @controllers.Cart.updateQuantity
+
 GET     /product/:id                      @controllers.Products.detail(id: Long)
 
 GET     /subcategory/:id                  @controllers.SubCategories.detail(id: Long)
