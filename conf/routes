@@ -21,6 +21,8 @@ GET     /cart/:id/detail/:detailId        @controllers.Cart.delete(id: Long, det
 
 POST    /cart/detail                      @controllers.Cart.updateQuantity
 
+GET     /cart/checkout/:cartSessionNumber   @controllers.Order.createOrUpdate(cartSessionNumber: String)
+
 GET     /product/:id                      @controllers.Products.detail(id: Long)
 
 GET     /subcategory/:id                  @controllers.SubCategories.detail(id: Long)

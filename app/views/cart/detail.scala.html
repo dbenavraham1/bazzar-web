@@ -10,7 +10,7 @@
             <li>
                 <div class="container-fluid">
                     <div class="row-fluid">
-                        <div class="span1 offset6">Quantity</div>
+                        <div class="span1 offset8">Quantity</div>
                     </div>
                 </div>
             </li>
@@ -40,8 +40,11 @@
                 <li>
                     <div class="container-fluid">
                         <div class="row-fluid">
-                            <div class="span1 offset6">
+                            <div class="span3 offset7">
                                 <input type="submit" value="Update Quantity" class="btn primary">
+                            </div>
+                            <div class="span1">
+                                <a class="btn btn-primary" href='@routes.Order.createOrUpdate((cart \ "sessionNumber").as[String])'>Checkout</a>
                             </div>
                         </div>
                     </div>

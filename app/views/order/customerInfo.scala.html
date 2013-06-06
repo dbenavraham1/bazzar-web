@@ -1,0 +1,42 @@
+@(order: play.api.libs.json.JsValue, customerForm: Form[CustomerData])(implicit common: Common)
+
+@helper.form(action = routes.Cart.updateQuantity) {
+    <div class="accordion-group">
+        <div class="no_margin_left">
+            <div class="accordion-heading">
+                <a class="accordion-toggle" data-toggle="collapse"
+                    data-parent="#accordion2" href="#collapseOne">
+                    Personal Info</a>
+            </div>
+            <div id="collapseOne" class="accordion-body collapse in">
+                <div class="accordion-inner">
+                    <div class="control-group">
+                        <label class="control-label">First Name</label>
+                        <div class="controls docs-input-sizes">
+                            @helper.inputText(customerForm("firstName"), '_label -> "", 'id -> "firstName", 'class -> "span4")
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">Last Name</label>
+                        <div class="controls docs-input-sizes">
+                            @helper.inputText(customerForm("lastName"), '_label -> "", 'id -> "lastName", 'class -> "span4")
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">Email Address</label>
+                        <div class="controls docs-input-sizes">
+                            <input type="text" placeholder="" class="span4">
+                        </div>
+                    </div>
+    
+                    <div class="control-group">
+                        <label class="control-label">Telephone</label>
+                        <div class="controls docs-input-sizes">
+                            @helper.inputText(customerForm("phone"), '_label -> "", 'id -> "phone", 'class -> "span4")
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

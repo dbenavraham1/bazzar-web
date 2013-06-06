@@ -1,0 +1,17 @@
+@(order: play.api.libs.json.JsValue, customerForm: Form[CustomerData])(implicit common: Common)
+
+<div class="accordion-group">
+    <div class="no_margin_left">
+        <div class="accordion-heading">
+            <a class="accordion-toggle" data-toggle="collapse"
+                data-parent="#accordion2" href="#collapseTwo">
+                Collapsible Group Item #2 </a>
+        </div>
+        <div id="collapseTwo" class="accordion-body collapse">
+            <div>@order</div>
+            <button type="button" class="btn btn-danger"
+                data-toggle="collapse" data-target="#demo">simple
+                collapsible</button>
+        </div>
+    </div>
+</div>

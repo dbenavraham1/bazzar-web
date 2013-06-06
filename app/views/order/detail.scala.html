@@ -1,0 +1,13 @@
+@(orderDetail: play.api.libs.json.JsValue, customerForm: Form[CustomerData])(implicit common: Common)
+
+@import play.api.libs.json._
+@import helper.twitterBootstrap._
+
+@main("Bazzar Store - Order Detail") {
+
+<div class="accordion" id="accordion2">
+    @order.customerInfo(orderDetail, customerForm)(common)
+    @order.paymentInfo(orderDetail, customerForm)(common)
+</div>
+
+}

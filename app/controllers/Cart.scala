@@ -18,13 +18,15 @@ class Cart extends Controller with ProvidesHeader {
 
   def index = Action { implicit request =>
     val uuid: String = session.get("token").map { token =>
-      Logger.info("Existing Token:  " + token)
       token
     }.getOrElse {
-      val uuid: String = UUID.randomUUID().toString()
-      Logger.info("New Token:  " + uuid)
-      session + ("token" -> uuid)
-      uuid
+      request.cookies.get("token").map { token =>
+        token.value
+      }.getOrElse {
+        val uuid: String = UUID.randomUUID().toString()
+        session + ("token" -> uuid)
+        uuid
+      }
     }
 
     val result: Future[JsValue] =
@@ -34,7 +36,8 @@ class Cart extends Controller with ProvidesHeader {
         .map { response => response.json }
     val cart: JsValue = Await.result(result, Duration.Inf) \ "cart"
 
-    Ok(views.html.cart.detail(cart, fillQuantityForm((cart \ "detail").asOpt[Seq[JsValue]])))
+    Ok(views.html.cart.detail(cart, fillQuantityForm((cart \ "detail").asOpt[Seq[JsValue]]))).withCookies(
+      Cookie("token", uuid))
   }
 
   def getItem(id: Long) = {
@@ -48,15 +51,21 @@ class Cart extends Controller with ProvidesHeader {
 
   def detail(id: Long) = Action { implicit request =>
     val uuid: String = session.get("token").map { token =>
-      Logger.info("Existing Token:  " + token)
+      Logger.info("From session @#!E@$!R$#@@@@@@#$@!: " + token)
       token
     }.getOrElse {
-      val uuid: String = UUID.randomUUID().toString()
-      Logger.info("New Token:  " + uuid)
-      session + ("token" -> uuid)
-      uuid
+      request.cookies.get("token").map { token =>
+        Logger.info("From request @#!E@$!R$#@@@@@@#$@!: " + token.value)
+        token.value
+      }.getOrElse {
+        val uuid: String = UUID.randomUUID().toString()
+        Logger.info("Generated @#!E@$!R$#@@@@@@#$@!: " + uuid)
+        session + ("token" -> uuid)
+        uuid
+      }
     }
 
+    Logger.info("Uuid is @#!E@$!R$#@@@@@@#$@!: " + uuid)
     val result: Future[JsValue] =
       WS.url("http://localhost:8080/bazzar_online/cart/find/session/" + uuid)
         .withTimeout(2000)
@@ -91,7 +100,8 @@ class Cart extends Controller with ProvidesHeader {
         .map { response => response.json }
     val updatedCart: JsValue = Await.result(updatedCartResult, Duration.Inf) \ "cart"
 
-    Ok(views.html.cart.detail(updatedCart, fillQuantityForm((updatedCart \ "detail").asOpt[Seq[JsValue]])))
+    Ok(views.html.cart.detail(updatedCart, fillQuantityForm((updatedCart \ "detail").asOpt[Seq[JsValue]]))).withCookies(
+      Cookie("token", uuid))
   }
 
   def prepItems(items: Seq[JsValue], itemModel: JsValue) = {
@@ -121,8 +131,10 @@ class Cart extends Controller with ProvidesHeader {
 
   def fillQuantityForm(details: Option[Seq[JsValue]]) = {
     var detailList = List[Detail]()
-    details.get.map { detail =>
-      detailList = detailList :+ Detail((detail \ "id").asOpt[Long], (detail \ "qty").asOpt[Int])
+    if (!details.isEmpty) {
+      details.get.map { detail =>
+        detailList = detailList :+ Detail((detail \ "id").asOpt[Long], (detail \ "qty").asOpt[Int])
+      }
     }
 
     quantityForm.fill(CartData(Option(0), Option(detailList)))
@@ -147,13 +159,18 @@ class Cart extends Controller with ProvidesHeader {
 
   def updateQuantity = Action { implicit request =>
     val uuid: String = session.get("token").map { token =>
-      Logger.info("Existing Token:  " + token)
+      Logger.info("From session @#!E@$!R$#@@@@@@#$@!: " + token)
       token
     }.getOrElse {
-      val uuid: String = UUID.randomUUID().toString()
-      Logger.info("New Token:  " + uuid)
-      session + ("token" -> uuid)
-      uuid
+      request.cookies.get("token").map { token =>
+        Logger.info("From request @#!E@$!R$#@@@@@@#$@!: " + token.value)
+        token.value
+      }.getOrElse {
+        val uuid: String = UUID.randomUUID().toString()
+        Logger.info("Generated @#!E@$!R$#@@@@@@#$@!: " + uuid)
+        session + ("token" -> uuid)
+        uuid
+      }
     }
 
     val result: Future[JsValue] =
@@ -175,11 +192,16 @@ class Cart extends Controller with ProvidesHeader {
         "quantity" -> detail.quantity)
     }
 
+    Logger.info("Cart is @#!E@$!R$#@@@@@@#$@!: " + cart)
+    Logger.info("Endpoint is @#!E@$!R$#@@@@@@#$@!: " + "http://localhost:8080/bazzar_online/cart/" + (cart \ "id") + "/update/quantity")
+    Logger.info("Request is @#!E@$!R$#@@@@@@#$@!: " + Json.obj("details" -> JsArray(details)))
     val result: Future[JsValue] =
-      WS.url("http://localhost:8080/bazzar_online/cart/update/quantity")
+      WS.url("http://localhost:8080/bazzar_online/cart/" + (cart \ "id") + "/update/quantity")
         .withTimeout(2000)
-        .put(Json.obj("cartId" -> (cart \ "id"), "details" -> JsArray(details)))
-        .map { response => response.json }
+        .put(Json.obj("details" -> JsArray(details)))
+        .map { response =>
+          response.json
+        }
     val updatedCart: JsValue = Await.result(result, Duration.Inf) \ "cart"
 
     Ok(views.html.cart.detail(updatedCart, fillQuantityForm((updatedCart \ "detail").asOpt[Seq[JsValue]])))
