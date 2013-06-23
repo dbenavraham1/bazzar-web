@@ -10,6 +10,12 @@ import scala.concurrent.Future
 import scala.concurrent.Await
 import scala.concurrent.duration.Duration
 import java.util.UUID
+import models.CartDetail
+import models.Cart
+import models.CustomerData
+import models.OrderDetail
+import models.Orders
+import models.Item
 
 object Application extends Controller with ProvidesHeader {
 
@@ -36,6 +42,21 @@ trait ProvidesHeader extends Controller {
     val menu: JsValue = Await.result(result, Duration.Inf) \ "category"
     Common(Header(menu), Sidebar(request.path))
   }
+
+}
+
+trait JsonConverters {
+
+  implicit val orderDetailReads = Json.reads[OrderDetail]
+  implicit val orderReads = Json.reads[Orders]
+  implicit val cartDetailReads = Json.reads[CartDetail]
+  implicit val cartReads = Json.reads[Cart]
+  implicit val itemReads = Json.reads[Item]
+
+  implicit val orderDetailWrites = Json.writes[OrderDetail]
+  implicit val orderWrites = Json.writes[Orders]
+  implicit val cartDetailWrites = Json.writes[CartDetail]
+  implicit val cartWrites = Json.writes[Cart]
 
 }
 

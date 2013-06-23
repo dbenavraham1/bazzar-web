@@ -13,15 +13,15 @@ GET     /clients/:id/categories           @controllers.Categories.list(id: Long)
 
 GET     /item/:id                         @controllers.Items.detail(id: Long)
 
-GET     /cart                             @controllers.Cart.index
+GET     /cart                             @controllers.CartController.index
 
-GET     /cart/:id                         @controllers.Cart.detail(id: Long)
+GET     /cart/:id                         @controllers.CartController.detail(id: Long)
 
-GET     /cart/:id/detail/:detailId        @controllers.Cart.delete(id: Long, detailId: Long)
+GET     /cart/:id/detail/:detailId        @controllers.CartController.delete(id: Long, detailId: Long)
 
-POST    /cart/detail                      @controllers.Cart.updateQuantity
+POST    /cart/detail                      @controllers.CartController.updateQuantity
 
-GET     /cart/checkout/:cartSessionNumber   @controllers.Order.createOrUpdate(cartSessionNumber: String)
+GET     /cart/checkout/:cartSessionNumber   @controllers.OrderController.createOrUpdate(cartSessionNumber: String)
 
 GET     /product/:id                      @controllers.Products.detail(id: Long)
 

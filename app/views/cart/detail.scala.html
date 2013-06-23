@@ -1,4 +1,4 @@
-@(cart: play.api.libs.json.JsValue, quantityForm: Form[CartData])(implicit common: Common)
+@(cart: models.Cart, quantityForm: Form[Cart])(implicit common: Common)
 
 @import play.api.libs.json._
 @import helper.twitterBootstrap._
@@ -6,7 +6,7 @@
 @main("Bazzar Store - Cart Detail") {
 
     <ul class="nav nav-list">
-        @if(!(cart \ "detail").asOpt[Seq[JsValue]].isEmpty) {
+        @if(!cart.details.isEmpty) {
             <li>
                 <div class="container-fluid">
                     <div class="row-fluid">
@@ -14,22 +14,22 @@
                     </div>
                 </div>
             </li>
-            @helper.form(action = routes.Cart.updateQuantity) {
+            @helper.form(action = routes.CartController.updateQuantity) {
 
-                @for((detail, i) <- ((cart \ "detail").as[List[JsValue]]).zipWithIndex) {
+                @for((detail, i) <- (cart.details.get.zipWithIndex)) {
                     <li class="divider"></li>
                     <li>
                         <div class="container-fluid">
                             <div class="row-fluid">
                                 <div class="span8">
-                                    <a href='@routes.Items.detail((detail \ "itemId").as[Long])'>@((detail \ "subject").as[String])</a>
+                                    <a href='@routes.Items.detail(detail.itemId.get)'>@(detail.subject.get)</a>
                                 </div>
                                 <div class="span2">
                                     <input type="hidden" value='@quantityForm("details[" + i + "].id").value' id='@("details[" + i + "].id")' name='@("details[" + i + "].id")' />
-                                    @helper.inputText(quantityForm("details[" + i + "].quantity"), '_label -> "", 'id -> ("details[" + i + "].quantity"), 'class -> "input-small-cart-qty", 'maxlength -> 3)
+                                    @helper.inputText(quantityForm("details[" + i + "].qty"), '_label -> "", 'id -> ("details[" + i + "].qty"), 'class -> "input-small-cart-qty", 'maxlength -> 3)
                                 </div>
                                 <div class="span2">
-                                    <a class="btn btn-primary" href='@routes.Cart.delete((cart \ "id").as[Long], (detail \ "id").as[Long])'>Delete</a>
+                                    <a class="btn btn-primary" href='@routes.CartController.delete(cart.id.get, detail.id.get)'>Delete</a>
                                 </div>
                             </div>
                         </div>
@@ -44,7 +44,7 @@
                                 <input type="submit" value="Update Quantity" class="btn primary">
                             </div>
                             <div class="span1">
-                                <a class="btn btn-primary" href='@routes.Order.createOrUpdate((cart \ "sessionNumber").as[String])'>Checkout</a>
+                                <a class="btn btn-primary" href='@routes.OrderController.createOrUpdate(cart.sessionNumber.get)'>Checkout</a>
                             </div>
                         </div>
                     </div>

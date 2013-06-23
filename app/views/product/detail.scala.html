@@ -14,7 +14,7 @@
                             <a href='@routes.Items.detail((item \ "id").as[Long])'>@((item \ "subject").as[String])</a>
                         </div>
                         <div class="span3">
-                            <a class="btn btn-primary" href='@routes.Cart.detail((item \ "id").as[Long])'>Add to cart</a>
+                            <a class="btn btn-primary" href='@routes.CartController.detail((item \ "id").as[Long])'>Add to cart</a>
                         </div>
                     </div>
                 </div>
