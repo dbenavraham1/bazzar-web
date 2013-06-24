@@ -16,7 +16,6 @@ import java.util.UUID
 import models.CartDetail
 import models.Cart
 import models.Item
-import scala.collection.mutable.ListBuffer
 
 class CartController extends Controller with ProvidesHeader with JsonConverters {
 
@@ -40,29 +39,26 @@ class CartController extends Controller with ProvidesHeader with JsonConverters 
 
   def detail(id: Long) = Action { implicit request =>
     val uuid = getUuid()
-    val cartJson = getCartJsonByUuid(uuid)
+    val cart = getCartByUuid(uuid)
 
     val item: Item = getItem(id)
-    if (cartJson.isEmpty) {
+    if (cart.id == null || cart.id.isEmpty) {
       val cart = Cart(sessionNumber = Some(uuid), ip = Some(request.remoteAddress), shoppingCartSubTotal = item.listedPrice,
-        itemCount = Some(1), details = Some(List(CartDetail(itemId = item.id, price = item.listedPrice, qty = item.quantity, subject = item.subject))))
+        itemCount = Some(1), details = Some(List(CartDetail(itemId = item.id, price = item.listedPrice, qty = Some(1), subject = item.subject))))
       updateCart(cart, uuid)
     } else {
-      val cart = Json.fromJson[Cart]((cartJson.get \ "cart")).get
-      cart.shoppingCartSubTotal = Some(cart.shoppingCartSubTotal.get + item.listedPrice.get)
+      cart.shoppingCartSubTotal = Some(cart.shoppingCartSubTotal.getOrElse { 0d } + item.listedPrice.get)
       var addItem = true
-      cart.details.get.foreach { detail =>
-        if (detail.id.get == item.id.get) {
+      cart.details.getOrElse(List()).foreach { detail =>
+        if (detail.itemId.get == item.id.get) {
           detail.qty = Some(detail.qty.get + 1)
           addItem = false
         }
       }
       
       if (addItem) {
-        val cartDetails = ListBuffer[CartDetail]()
-        cart.details.get.foreach { cartDetail => cartDetails += cartDetail }
-        cartDetails += new CartDetail(itemId = item.id, price = item.listedPrice, qty = Some(1), subject = item.subject)
-        cart.details = Some(cartDetails.toList)
+        val newDetails = cart.details.getOrElse(List()) ::: List(CartDetail(itemId = item.id, price = item.listedPrice, qty = Some(1), subject = item.subject))
+        cart.details = Some(newDetails)
       }
       
       updateCart(cart, uuid)
@@ -83,7 +79,11 @@ class CartController extends Controller with ProvidesHeader with JsonConverters 
   }
 
   def fillQuantityForm(details: Option[List[CartDetail]]) = {
-    quantityForm.fill(Cart(details = Option(details.get)))
+    if (details.isEmpty) {
+      quantityForm
+    } else {
+      quantityForm.fill(Cart(details = details))
+    }
   }
 
   def delete(id: Long, detailId: Long) = Action { implicit request =>
@@ -147,21 +147,13 @@ class CartController extends Controller with ProvidesHeader with JsonConverters 
     }
   }
 
-  def getCartJsonByUuid(uuid: String) = {
+  def getCartByUuid(uuid: String) = {
     val result: Future[Option[JsValue]] =
       WS.url("http://localhost:8080/bazzar_online/cart/find/session/" + uuid)
         .withTimeout(2000)
         .get
         .map { response => response.json.asOpt[JsValue] }
-    val cartJson: Option[JsValue] = Await.result(result, Duration.Inf)
-    if (cartJson.isEmpty) {
-      BadRequest("Expecting Cart Json data")
-    }
-    cartJson
-  }
-
-  def getCartByUuid(uuid: String) = {
-    val cartJson = getCartJsonByUuid(uuid);
-    Json.fromJson[Cart]((cartJson.get \ "cart")).get
+    val cartJson = (Await.result(result, Duration.Inf)).getOrElse(Json.toJson("")) \ "cart"
+    Json.fromJson[Cart](cartJson).get
   }
 }
