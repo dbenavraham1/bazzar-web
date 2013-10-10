@@ -44,7 +44,7 @@ class CartController extends Controller with ProvidesHeader with JsonConverters 
     val item: Item = getItem(id)
     if (cart.id == null || cart.id.isEmpty) {
       val cart = Cart(sessionNumber = Some(uuid), ip = Some(request.remoteAddress), shoppingCartSubTotal = item.listedPrice,
-        itemCount = Some(1), details = Some(List(CartDetail(itemId = item.id, price = item.listedPrice, qty = Some(1), subject = item.subject))))
+        itemCount = Some(1), details = Some(List(CartDetail(itemId = item.id, price = item.listedPrice, qty = Some(1), subject = item.attribute))))
       updateCart(cart, uuid)
     } else {
       cart.shoppingCartSubTotal = Some(cart.shoppingCartSubTotal.getOrElse { 0d } + item.listedPrice.get)
@@ -57,7 +57,7 @@ class CartController extends Controller with ProvidesHeader with JsonConverters 
       }
       
       if (addItem) {
-        val newDetails = cart.details.getOrElse(List()) ::: List(CartDetail(itemId = item.id, price = item.listedPrice, qty = Some(1), subject = item.subject))
+        val newDetails = cart.details.getOrElse(List()) ::: List(CartDetail(itemId = item.id, price = item.listedPrice, qty = Some(1), subject = item.attribute))
         cart.details = Some(newDetails)
       }
       
@@ -73,6 +73,8 @@ class CartController extends Controller with ProvidesHeader with JsonConverters 
         .map { response => response.json.asOpt[JsValue] }
     val updatedCartJson: Option[JsValue] = Await.result(updatedCartResult, Duration.Inf)
     val updatedCart = Json.fromJson[Cart]((updatedCartJson.get \ "cart")).get
+      updatedCart.details.getOrElse(List()).foreach { detail =>
+      }
 
     Ok(views.html.cart.detail(updatedCart, fillQuantityForm(updatedCart.details))).withCookies(
       Cookie("token", uuid))
@@ -115,7 +117,7 @@ class CartController extends Controller with ProvidesHeader with JsonConverters 
 
   def updateQuantities(cart: Cart, cartData: Cart)(implicit common: Common) = {
 
-    val details: Seq[JsValue] = cartData.details.get.map { detail =>
+    val details: Seq[JsValue] = cartData.details.getOrElse(List()).map { detail =>
       Json.obj("id" -> detail.id,
         "qty" -> detail.qty)
     }

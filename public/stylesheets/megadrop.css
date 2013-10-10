@@ -1,0 +1,99 @@
+* { -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; padding: 0; margin: 0;}
+
+body { font-family: "PT Sans", sans-serif; background: #f5f5f5; font-size: 100%;}
+
+.nav2 ul {margin: 0 .5em 3em 1em;}
+.nav2 li { list-style: none; }
+.nav2 > li { padding: 0; float: left;  }
+.nav2 > li > a {
+	float: left;
+	text-decoration: none;
+	line-height: 34px;
+	padding: 0 25px; 
+}
+/* .nav2 > li:hover > a { background: #555;	border-right: 1px solid #666; } */
+.nav2 > li:first-child > a { border-left: 0; }
+.nav2 > li:last-child > a { border-right: 0; }
+/* .nav2 > li:hover > div { display: block; } */
+
+/* MEGA DROP DOWN */
+
+.nav2 > li > div[class^='contr-'] {
+	position: absolute;
+	left: 0;
+	top: 34px;
+	display: none;
+	background: #fff;
+	padding: 10px 10px;
+	box-shadow: 0 2px 3px rgba(0,0,0,0.1);
+	overflow: hidden;
+}
+.nav2 > li > div p { color: #666; }
+.nav2 > li > div.right { right: 0; left: auto }
+.contr-1, .contr-2, .contr-3, .contr-4 { font-size: 80%; }
+
+
+/* COLUMNS */
+.col1,.col2,.col3,.col4,.col5 { margin: 10px 0; float: left; padding: 0 0px;}
+
+
+	/* 1 Column */
+	.contr-1 { width: 170px; }
+	.contr-1 .col1 { width: 100%; }
+
+	/* 2 Column */
+	.contr-2 { width: 270px; }
+	.contr-2 .col1 { width: 50% }
+	.contr-2 .col2 { width: 100% }
+
+	/* 3 Column */
+	.contr-3 { width: 500px; }
+	.contr-3 .col1 { width: 33.33% } 
+	.contr-3 .col2 { width: 66.66% }
+	.contr-3 .col3 { width: 100% }
+
+
+	/* 4 Column */
+	.contr-4 { width: 600px; }
+	.contr-4 .col1 { width: 25%; }
+	.contr-4 .col2 { width: 50% }
+	.contr-4 .col3 { width: 75% }
+	.contr-4 .col4 { width: 100% }
+
+
+	/* 5 Column */
+	.contr-5 { width: 700px; }
+	.contr-5 .col1 { width: 20%; }
+	.contr-5 .col2 { width: 40% }
+	.contr-5 .col3 { width: 60% }
+	.contr-5 .col4 { width: 80% }
+	.contr-5 .col5 { width: 100% }
+
+/* HIGHLIGHTS */
+
+.contr-3 .highlighted { 
+	width: 400px; 
+	margin-left: -20px; 
+	padding: 20px; 
+	background: #e4fbff; 
+	border-top: 1px solid #ddd; 
+	border-bottom: 1px solid #ddd;
+}
+.contr-4 .highlighted { 
+	width: 500px;
+	margin-left: -10px; 
+	padding: 20px; 
+	background: #e4fbff; 
+	border-top: 1px solid #ddd; 
+	border-bottom: 1px solid #ddd;
+}
+
+
+
+.clearfix:after {
+  content: ".";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+}

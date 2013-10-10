@@ -1,9 +1,59 @@
-@(item: play.api.libs.json.JsValue)(implicit common: Common)
+@(item: models.MenuCategory, sidebar: Html, breadcrumb: Html)(implicit common: Common)
 
 @import play.api.libs.json._
 
-@main("Bazzar Store - Item Detail") {
+@main("Bazzar Store - Item Detail", sidebar, breadcrumb) {
 
-    <div>@((item \ "subject").as[String])</div>
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="span4">@item.attribute.getOrElse("")</div>
+            <div class="span5">
+                <div class="container-fluid">
+                    <div class="row-fluid">
+                        <div class="span5">Model #</div>
+                    </div>
+                    <div class="row-fluid">
+                        <div class="span5">Manufacturer #</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row-fluid">
+            <div class="span9 item-line"></div>
+        </div>
+        <div class="row-fluid">
+            <div class="span9">
+                <img class="item-main" src="@routes.Assets.at("images/item/item-main.png")" alt="main item picture"></img>
+            </div>
+        </div>
+        <div class="row-fluid thumbnail-row">
+            <div class="span1">
+                <img src="@routes.Assets.at("images/item/item-small.png")" alt="small item picture"></img>
+            </div>
+            <div class="span1">
+                <img src="@routes.Assets.at("images/item/item-small.png")" alt="small item picture"></img>
+            </div>
+            <div class="span1">
+                <img src="@routes.Assets.at("images/item/item-small.png")" alt="small item picture"></img>
+            </div>
+            <div class="span1">
+                <img src="@routes.Assets.at("images/item/item-small.png")" alt="small item picture"></img>
+            </div>
+            <div class="span1">
+                <img src="@routes.Assets.at("images/item/item-small.png")" alt="small item picture"></img>
+            </div>
+            <div class="span1">
+                <img src="@routes.Assets.at("images/item/item-small.png")" alt="small item picture"></img>
+            </div>
+            <div class="span1">
+                <img src="@routes.Assets.at("images/item/item-small.png")" alt="small item picture"></img>
+            </div>
+        </div>
+        <div class="row-fluid">
+            <div class="span9">
+                <a class="btn btn-primary" href='@routes.CartController.detail(item.id.getOrElse(0))'>Add to cart</a>
+            </div>
+        </div>
+   </div>
 
 }

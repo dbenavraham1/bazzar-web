@@ -1,0 +1,18 @@
+@(item: models.MenuCategory)(implicit common: Common)
+
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span1">
+            <a href='@routes.Categories.detail(item.parent.get.parent.get.parent.get.id.getOrElse(0))'>@item.parent.get.parent.get.parent.get.attribute.getOrElse("")</a>
+        </div>
+        <div class="span1">
+            <a href='@routes.SubCategories.detail(item.parent.get.parent.get.id.getOrElse(0))'>@item.parent.get.parent.get.attribute.getOrElse("")</a>
+        </div>
+        <div class="span1">
+            <a href='@routes.Products.detail(item.parent.get.id.getOrElse(0))'>@item.parent.get.attribute.getOrElse("")</a>
+        </div>
+        <div class="span9">
+            <a href='@routes.Items.detail(item.id.getOrElse(0))'>@item.attribute.getOrElse("")</a>
+        </div>
+    </div>
+</div>

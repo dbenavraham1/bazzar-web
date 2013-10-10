@@ -6,14 +6,17 @@ import play.api.libs.json._
 import play.api.libs.ws.WS
 import scala.concurrent.ExecutionContext.Implicits.global
 import play.api.templates.Html
+import models.MenuCategory
 
 class Categories extends Controller with ProvidesHeader {
 
   def detail(id: Long) = Action { implicit request =>
     Async {
       WS.url("http://localhost:8080/bazzar_online/menu/category/" + id + "/").get().map { response =>
-        val category: JsValue = response.json \ "category"
-        Ok(views.html.category.detail(category, views.html.category.sidebar(category \ "subCategory")))
+        val category = Json.fromJson[MenuCategory](response.json \ "category").get
+        val sidebar = views.html.category.sidebar(category)
+        val breadcrumb = views.html.category.breadcrumb(category)
+        Ok(views.html.category.detail(category, sidebar, breadcrumb))
       }
     }
   }

@@ -1,31 +1,50 @@
-// Main Stylesheet
+/* Main Stylesheet */
 body {
-    padding-top: 60px;
-    padding-bottom: 40px;
+/*    padding-top: 60px;
+    padding-bottom: 40px; */
 }
 
 .sidebar-nav {
     padding: 9px 0;
 }
 
-.dropdown-menu .sub-menu {
-    left: 100%;
-    position: absolute;
-    top: 0;
-    visibility: hidden;
-    margin-top: -1px;
+.dropdown-toggle {
+	background-image: url('../images/header/bg.png');
 }
 
-.dropdown-menu li:hover .sub-menu {
-    visibility: visible;
+.vertical_line {
+    background-image: url('../images/header/vertical_line.png');
+    left:4px;
+    top:0px;
+    width:3px;
+    height:100%;
 }
 
-.dropdown:hover .dropdown-menu {
+.item-line {
+    background-image: url('../images/item/item-line.png');
+    background-repeat: no-repeat;
+    background-position: left top;
+}
+
+.item-main {
     display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
 
-.nav-tabs .dropdown-menu, .nav-pills .dropdown-menu, .navbar .dropdown-menu {
+.thumbnail-row {
+    width: 610px;
+    hight: 46px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.nav-tabs .dropdown-menu, .nav-pills li a, .nav-pills .dropdown-menu, .navbar .dropdown-menu {
     margin-top: 0;
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    border-radius: 0px;
 }
 
 .navbar .sub-menu:before {
@@ -46,9 +65,9 @@ body {
     left: -6px;
 }
 
-.cat-header {
+/*.cat-header {
    margin-top: 1em;
-}
+}*/
 
 .category-child {
 	margin-left: 1em; 
@@ -75,18 +94,19 @@ body {
 }
 
 .row-fluid-header {
-    background-color: #bbd8e9;
-    border: 1px solid #ddd;
-    -webkit-border-radius: 6px;
+	background-image: url('../images/header/bg.png');
+/*    background-color: #bbd8e9; */
+    border: 0px /* solid #ddd; */
+/*    -webkit-border-radius: 6px;
     -moz-border-radius: 6px;
     border-radius: 6px;
     -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.075);
     -moz-box-shadow: 0 1px 2px rgba(0,0,0,.075);
-    box-shadow: 0 1px 2px rgba(0,0,0,.075);
+    box-shadow: 0 1px 2px rgba(0,0,0,.075); */
 }
 
 .span3-sidebar {
-//    background-color: #bbd8e9;
+/*    background-color: #bbd8e9; */
     border: 1px solid #ddd;
     -webkit-border-radius: 6px;
     -moz-border-radius: 6px;
@@ -98,7 +118,7 @@ body {
 }
 
 .span9-content {
-//    background-color: #dceaf4;
+/*    background-color: #dceaf4; */
     border: 1px solid #ddd;
     -webkit-border-radius: 6px;
     -moz-border-radius: 6px;
@@ -107,7 +127,81 @@ body {
     -moz-box-shadow: 0 1px 2px rgba(0,0,0,.075);
     box-shadow: 0 1px 2px rgba(0,0,0,.075);
     padding: 9px;
-//    height: 300px;
+/*    height: 300px; */
+}
+
+.container-fluid {
+    padding-right: 0px;
+    padding-left: 0px;
+}
+
+.row-fluid p
+{
+    margin: 0 0;    
+}
+
+.footer .row-fluid .span2, .footer .row-fluid .span6, .footer .row-fluid .span8
+{
+    min-height: 0;
+    line-height: 12px;
+}
+
+.footer p  
+{
+    font-family:Arial;
+    font-size:13px;
+    font-weight:bold;
+    font-style:normal;
+    text-decoration:none;
+    color:#333366;"
+}
+
+.footer a   
+{
+    font-family:Arial;
+    font-size:11px;
+    font-weight:normal;
+    font-style:normal;
+    text-decoration:none;
+    color:#333366;"
+}
+
+.search-box-container {
+    padding-top: 20px;
+}
+
+.breadcrumb-container {
+    padding-top: 10px;
+}
+
+.span12-row-header {
+    background-image: url('../images/header/bg.png');
+    border: 0px;
+    height: 34px;
+}
+
+.span12-row-navbar {
+    height: 34px;
+}
+
+.item-line {
+    background-image: url('../images/item/item-line.png');
+}
+
+.item-main {
+    background-image: url('../images/item/item-main.png');
+}
+
+.search-btn {
+    position: absolute;
+    background-image: url('../images/header/search_btn.png');
+    width: 66px;
+    height: 25px;
+    text-align: center;
+    line-height: 28px;
+    text-decoration: none;
+    text-decoration: none;
+    vertical-align: middle;
 }
 
 .row-fluid-footer {
@@ -123,4 +217,25 @@ body {
 
 .input-small-cart-qty {
     width: 25px;
+}
+
+.container 
+{
+	width: 80%;
+}
+
+.container-fluid .row-fluid .span3 nav 
+{
+	margin: 0 0;
+}
+
+.container-fluid .row-fluid .span3 li a 
+{
+	padding: 0 .4em;
+}
+
+#logo a
+{
+	position: absolute;
+	margin-top: -1.2em;
 }

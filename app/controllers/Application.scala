@@ -16,6 +16,9 @@ import models.CustomerData
 import models.OrderDetail
 import models.Orders
 import models.Item
+import models.MenuCategory
+import scala.collection.mutable.ListBuffer
+import models.Header
 
 object Application extends Controller with ProvidesHeader {
 
@@ -39,8 +42,9 @@ trait ProvidesHeader extends Controller {
         .withTimeout(2000)
         .get
         .map { response => response.json }
-    val menu: JsValue = Await.result(result, Duration.Inf) \ "category"
-    Common(Header(menu), Sidebar(request.path))
+    val categories: JsValue = Await.result(result, Duration.Inf)
+    val header = Json.fromJson[Header](categories).get
+    Common(header)
   }
 
 }
@@ -57,9 +61,8 @@ trait JsonConverters {
   implicit val orderWrites = Json.writes[Orders]
   implicit val cartDetailWrites = Json.writes[CartDetail]
   implicit val cartWrites = Json.writes[Cart]
+  implicit val itemWrites = Json.writes[Item]
 
 }
 
-case class Common(header: Header, sidebar: Sidebar)
-case class Header(menu: JsValue)
-case class Sidebar(menu: String)
+case class Common(header: Header)

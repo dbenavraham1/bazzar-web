@@ -1,25 +1,20 @@
-@(product: play.api.libs.json.JsValue)(implicit common: Common)
+@(product: models.MenuCategory, sidebar: Html, breadcrumb: Html)(implicit common: Common)
 
 @import play.api.libs.json._
 
-@main("Bazzar Store - Item Detail") {
+@main("Bazzar Store - Item Detail", sidebar, breadcrumb) {
 
-    <ul class="nav nav-list">
-        @for(item <- (product \ "item").as[List[JsValue]]) {
-            <li class="divider"></li>
-            <li>
-                <div class="container-fluid">
-                    <div class="row-fluid">
-                        <div class="span9">
-                            <a href='@routes.Items.detail((item \ "id").as[Long])'>@((item \ "subject").as[String])</a>
-                        </div>
-                        <div class="span3">
-                            <a class="btn btn-primary" href='@routes.CartController.detail((item \ "id").as[Long])'>Add to cart</a>
-                        </div>
-                    </div>
+    <div class="container-fluid">
+        @for(item <- product.children.get) {
+            <div class="row-fluid">
+                <div class="span5">
+                    <a href='@routes.Items.detail(item.id.getOrElse(0))'>@item.attribute.getOrElse("")</a>
                 </div>
-            </li>
+                <div class="span4">
+                    <a class="btn btn-primary" href='@routes.CartController.detail(item.id.getOrElse(0))'>Add to cart</a>
+                </div>
+            </div>
         }
-    </ul>
+    </div>
 
 }

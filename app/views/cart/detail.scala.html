@@ -22,7 +22,7 @@
                         <div class="container-fluid">
                             <div class="row-fluid">
                                 <div class="span8">
-                                    <a href='@routes.Items.detail(detail.itemId.get)'>@(detail.subject.get)</a>
+                                    <a href='@routes.Items.detail(detail.itemId.getOrElse(0))'>@(detail.subject.getOrElse(""))</a>
                                 </div>
                                 <div class="span2">
                                     <input type="hidden" value='@quantityForm("details[" + i + "].id").value' id='@("details[" + i + "].id")' name='@("details[" + i + "].id")' />

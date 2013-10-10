@@ -1,0 +1,12 @@
+@(subCategory: models.MenuCategory)(implicit common: Common)
+
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span1">
+            <a href='@routes.Categories.detail(subCategory.parent.get.id.getOrElse(0))'>@subCategory.parent.get.attribute.getOrElse("")</a>
+        </div>
+        <div class="span11">
+            <a href='@routes.SubCategories.detail(subCategory.id.getOrElse(0))'>@subCategory.attribute.getOrElse(0)</a>
+        </div>
+    </div>
+</div>

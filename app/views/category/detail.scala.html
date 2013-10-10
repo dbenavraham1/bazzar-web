@@ -1,9 +1,9 @@
-@(category: play.api.libs.json.JsValue, sidebar: Html)(implicit common: Common)
+@(category: models.MenuCategory, sidebar: Html, breadcrumb: Html)(implicit common: Common)
 
 @import play.api.libs.json._
 
-@main("Bazzar Store - Category Detail", sidebar) {
+@main("Bazzar Store - Category Detail", sidebar, breadcrumb) {
 
-    <div>@((category \ "attribute").as[String])</div>
+    <div>@category.attribute.getOrElse("")</div>
 
 }
