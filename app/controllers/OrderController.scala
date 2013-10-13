@@ -87,14 +87,15 @@ class OrderController extends Controller with ProvidesHeader with JsonConverters
 
       Ok(views.html.order.detail(Json.fromJson[Orders]((updatedOrder \ "order")).get, fillOrderForm((updatedOrder \ "customer").asOpt[JsValue])))
     } else {
-      val result: Future[JsValue] =
-        WS.url("http://localhost:8080/bazzar_online/order/")
-          .withRequestTimeout(2000)
-          .post(Json.toJson(existingOrder))
-          .map { response => response.json }
-      val updatedOrder: JsValue = Await.result(result, Duration.Inf)
-
-      Ok(views.html.order.detail(Json.fromJson[Orders]((updatedOrder \ "order")).get, fillOrderForm((updatedOrder \ "customer").asOpt[JsValue])))
+//      val result: Future[JsValue] =
+//        WS.url("http://localhost:8080/bazzar_online/order/")
+//          .withRequestTimeout(2000)
+//          .post(Json.toJson(existingOrder))
+//          .map { response => response.json }
+//      val updatedOrder: JsValue = Await.result(result, Duration.Inf)
+//
+//      Ok(views.html.order.detail(Json.fromJson[Orders]((updatedOrder \ "order")).get, fillOrderForm((updatedOrder \ "customer").asOpt[JsValue])))
+      Ok(views.html.order.detail(existingOrder, fillOrderForm((orderJson.get \ "customer").asOpt[JsValue])))
     }
   }
 
