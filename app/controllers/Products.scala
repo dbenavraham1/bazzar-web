@@ -10,13 +10,11 @@ import models.MenuCategory
 
 class Products extends Controller with ProvidesHeader {
 
-  def detail(id: Long) = Action { implicit request =>
-    Async {
-      WS.url("http://localhost:8080/bazzar_online/menu/product/" + id + "/").get().map { response =>
-        val product = Json.fromJson[MenuCategory](response.json \ "product").get
-        val breadcrumb = views.html.product.breadcrumb(product)
-        Ok(views.html.product.detail(product, Html(""), breadcrumb))
-      }
+  def detail(id: Long) = Action.async { implicit request =>
+    WS.url("http://localhost:8080/bazzar_online/menu/product/" + id + "/").get().map { response =>
+      val product = Json.fromJson[MenuCategory](response.json \ "product").get
+      val breadcrumb = views.html.product.breadcrumb(product)
+      Ok(views.html.product.detail(product, Html(""), breadcrumb))
     }
   }
 

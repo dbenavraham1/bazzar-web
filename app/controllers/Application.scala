@@ -39,7 +39,7 @@ trait ProvidesHeader extends Controller {
 
     val result: Future[JsValue] =
       WS.url("http://localhost:8080/bazzar_online/menu/category/")
-        .withTimeout(2000)
+        .withRequestTimeout(2000)
         .get
         .map { response => response.json }
     val categories: JsValue = Await.result(result, Duration.Inf)

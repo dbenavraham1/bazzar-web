@@ -30,7 +30,7 @@ class CartController extends Controller with ProvidesHeader with JsonConverters 
   def getItem(id: Long) = {
     val result: Future[Option[JsValue]] =
       WS.url("http://localhost:8080/bazzar_online/item/" + id)
-        .withTimeout(2000)
+        .withRequestTimeout(2000)
         .get
         .map { response => response.json.asOpt[JsValue] }
     val itemJson: Option[JsValue] = Await.result(result, Duration.Inf)
@@ -68,7 +68,7 @@ class CartController extends Controller with ProvidesHeader with JsonConverters 
   def updateCart(cart: Cart, uuid: String)(implicit common: Common) = {
     val updatedCartResult: Future[Option[JsValue]] =
       WS.url("http://localhost:8080/bazzar_online/cart/")
-        .withTimeout(2000)
+        .withRequestTimeout(2000)
         .put(Json.toJson(cart))
         .map { response => response.json.asOpt[JsValue] }
     val updatedCartJson: Option[JsValue] = Await.result(updatedCartResult, Duration.Inf)
@@ -91,7 +91,7 @@ class CartController extends Controller with ProvidesHeader with JsonConverters 
   def delete(id: Long, detailId: Long) = Action { implicit request =>
     val result: Future[Option[JsValue]] =
       WS.url("http://localhost:8080/bazzar_online/cart/" + id + "/detail/" + detailId)
-        .withTimeout(2000)
+        .withRequestTimeout(2000)
         .delete
         .map { response => response.json.asOpt[JsValue] }
     val cartJson: Option[JsValue] = Await.result(result, Duration.Inf)
@@ -124,7 +124,7 @@ class CartController extends Controller with ProvidesHeader with JsonConverters 
 
     val result: Future[Option[JsValue]] =
       WS.url("http://localhost:8080/bazzar_online/cart/" + cart.id.get + "/update/quantity")
-        .withTimeout(2000)
+        .withRequestTimeout(2000)
         .put(Json.obj("details" -> JsArray(details)))
         .map { response =>
           response.json.asOpt[JsValue]
@@ -152,7 +152,7 @@ class CartController extends Controller with ProvidesHeader with JsonConverters 
   def getCartByUuid(uuid: String) = {
     val result: Future[Option[JsValue]] =
       WS.url("http://localhost:8080/bazzar_online/cart/find/session/" + uuid)
-        .withTimeout(2000)
+        .withRequestTimeout(2000)
         .get
         .map { response => response.json.asOpt[JsValue] }
     val cartJson = (Await.result(result, Duration.Inf)).getOrElse(Json.toJson("")) \ "cart"

@@ -58,7 +58,7 @@ class OrderController extends Controller with ProvidesHeader with JsonConverters
 
     val cartResult: Future[Option[JsValue]] =
       WS.url("http://localhost:8080/bazzar_online/cart/find/session/" + cartSessionNumber)
-        .withTimeout(2000)
+        .withRequestTimeout(2000)
         .get
         .map { response => response.json.asOpt[JsValue] }
     val cartJson: Option[JsValue] = Await.result(cartResult, Duration.Inf)
@@ -69,7 +69,7 @@ class OrderController extends Controller with ProvidesHeader with JsonConverters
 
     val orderResult: Future[Option[JsValue]] =
       WS.url("http://localhost:8080/bazzar_online/order/find/session/" + cartSessionNumber)
-        .withTimeout(2000)
+        .withRequestTimeout(2000)
         .get
         .map { response => response.json.asOpt[JsValue] }
     val orderJson: Option[JsValue] = Await.result(orderResult, Duration.Inf)
@@ -79,7 +79,7 @@ class OrderController extends Controller with ProvidesHeader with JsonConverters
       val newOrder = Orders(sessionNumber = Some(cartSessionNumber), ip = Some(request.remoteAddress), detail = newOrderDetails.toList)
       val result: Future[JsValue] =
         WS.url("http://localhost:8080/bazzar_online/order/")
-          .withTimeout(2000)
+          .withRequestTimeout(2000)
           .post(Json.toJson(newOrder))
           .map { response => response.json }
       val updatedOrder: JsValue = Await.result(result, Duration.Inf)
@@ -90,7 +90,7 @@ class OrderController extends Controller with ProvidesHeader with JsonConverters
 
       val result: Future[JsValue] =
         WS.url("http://localhost:8080/bazzar_online/order/")
-          .withTimeout(2000)
+          .withRequestTimeout(2000)
           .post(Json.toJson(existingOrder))
           .map { response => response.json }
       val updatedOrder: JsValue = Await.result(result, Duration.Inf)

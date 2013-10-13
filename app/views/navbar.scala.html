@@ -2,42 +2,40 @@
 
 @import play.api.libs.json._
 
-<div class="container-fluid">
-    <div class="row-fluid span12-row-navbar">
-        <div class="span12">
-            <ul class="nav2 nav-pills clearfix animated">
-                @for(cat1 <- common.header.menu.get) {
-                    <li class="dropdown">
-                        <a class="dropdown-toggle" href='@routes.Categories.detail(cat1.id.getOrElse(0))'>@cat1.attribute.getOrElse("")</a>
-                        <div class="contr-3">
-                            @for(cat2 <- cat1.children.get) {
-                                <div class="col1">
-                                    <ul>
-                                        <li class="cat-header"><a href='@routes.SubCategories.detail(cat2.id.getOrElse(0))' class="bold">@cat2.attribute.getOrElse("")</a></li>
-                                        <li class="divider"></li>
-                                        @for(cat3 <- cat2.children.get) {
-                                            <li><a class="category-child" href='@routes.Products.detail(cat3.id.getOrElse(0))' class="gray">@cat3.attribute.getOrElse("")</a></li>
-                                        }
-                                        <li class="spacer"></li>
-                                    </ul>
-                                </div>
-                            }
-                        </div>
-                    </li>
-                }
-            </ul>
-        </div>
+<div class="row col-md-12-row-navbar">
+    <div class="col-md-12">
+        <ul class="nav2 clearfix animated">
+            @for(cat1 <- common.header.menu.get) {
+                <li>
+                    <a href='@routes.Categories.detail(cat1.id.getOrElse(0))'>@cat1.attribute.getOrElse("")</a>
+                    <div class="contr-3">
+                        @for(cat2 <- cat1.children.get) {
+                            <div class="col1">
+                                <ul>
+                                    <li><a href='@routes.SubCategories.detail(cat2.id.getOrElse(0))' class="bold">@cat2.attribute.getOrElse("")</a></li>
+                                    <li class="divider"></li>
+                                    @for(cat3 <- cat2.children.get) {
+                                        <li><a class="category-child" href='@routes.Products.detail(cat3.id.getOrElse(0))' class="gray">@cat3.attribute.getOrElse("")</a></li>
+                                    }
+                                    <li class="spacer"></li>
+                                </ul>
+                            </div>
+                        }
+                    </div>
+                </li>
+            }
+        </ul>
     </div>
-    <div class="row-fluid">
-        <div class="span12 breadcrumb-container">
-            @breabcrumb
-        </div>
+</div>
+<div class="row">
+    <div class="col-md-12 breadcrumb-container">
+        @breabcrumb
     </div>
 </div>
 
 <!-- div class="container">
     <div class="row">
-        <div class="span6">
+        <div class="col-md-6">
             <ul class="nav nav-pills">
                 <li class="active"><a href="#">Home</a></li>
                 <li><a href="#">About</a></li>

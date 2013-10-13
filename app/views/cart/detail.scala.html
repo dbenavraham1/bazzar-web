@@ -5,52 +5,36 @@
 
 @main("Bazzar Store - Cart Detail") {
 
-    <ul class="nav nav-list">
-        @if(!cart.details.isEmpty) {
-            <li>
-                <div class="container-fluid">
-                    <div class="row-fluid">
-                        <div class="span1 offset8">Quantity</div>
+    @if(!cart.details.isEmpty) {
+        <div class="row">
+            <div class="col-md-1 col-md-offset-7">Quantity</div>
+        </div>
+        @helper.form(action = routes.CartController.updateQuantity) {
+
+            @for((detail, i) <- (cart.details.get.zipWithIndex)) {
+                <div class="row">
+                    <div class="col-md-7">
+                        <a href='@routes.Items.detail(detail.itemId.getOrElse(0))'>@(detail.subject.getOrElse(""))</a>
+                    </div>
+                    <div class="col-md-1">
+                        <input type="hidden" value='@quantityForm("details[" + i + "].id").value' id='@("details[" + i + "].id")' name='@("details[" + i + "].id")' />
+                        @helper.inputText(quantityForm("details[" + i + "].qty"), '_label -> "", 'id -> ("details[" + i + "].qty"), 'class -> "input-small-cart-qty", 'maxlength -> 3)
+                    </div>
+                    <div class="col-md-1">
+                        <a class="btn btn-default btn-primary" href='@routes.CartController.delete(cart.id.get, detail.id.get)'>Delete</a>
                     </div>
                 </div>
-            </li>
-            @helper.form(action = routes.CartController.updateQuantity) {
-
-                @for((detail, i) <- (cart.details.get.zipWithIndex)) {
-                    <li class="divider"></li>
-                    <li>
-                        <div class="container-fluid">
-                            <div class="row-fluid">
-                                <div class="span8">
-                                    <a href='@routes.Items.detail(detail.itemId.getOrElse(0))'>@(detail.subject.getOrElse(""))</a>
-                                </div>
-                                <div class="span2">
-                                    <input type="hidden" value='@quantityForm("details[" + i + "].id").value' id='@("details[" + i + "].id")' name='@("details[" + i + "].id")' />
-                                    @helper.inputText(quantityForm("details[" + i + "].qty"), '_label -> "", 'id -> ("details[" + i + "].qty"), 'class -> "input-small-cart-qty", 'maxlength -> 3)
-                                </div>
-                                <div class="span2">
-                                    <a class="btn btn-primary" href='@routes.CartController.delete(cart.id.get, detail.id.get)'>Delete</a>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-                }
-
-                <li class="divider"></li>
-                <li>
-                    <div class="container-fluid">
-                        <div class="row-fluid">
-                            <div class="span3 offset7">
-                                <input type="submit" value="Update Quantity" class="btn primary">
-                            </div>
-                            <div class="span1">
-                                <a class="btn btn-primary" href='@routes.OrderController.createOrUpdate(cart.sessionNumber.get)'>Checkout</a>
-                            </div>
-                        </div>
-                    </div>
-                </li>
             }
+
+            <div class="row">
+                <div class="col-md-2 col-md-offset-7">
+                    <input type="submit" value="Update Quantity" class="btn btn-default btn-primary">
+                </div>
+                <div class="col-md-1">
+                    <a class="btn btn-default btn-primary" href='@routes.OrderController.createOrUpdate(cart.sessionNumber.get)'>Checkout</a>
+                </div>
+            </div>
         }
-    </ul>
+    }
 
 }
