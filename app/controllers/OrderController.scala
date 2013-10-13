@@ -73,7 +73,8 @@ class OrderController extends Controller with ProvidesHeader with JsonConverters
         .get
         .map { response => response.json.asOpt[JsValue] }
     val orderJson: Option[JsValue] = Await.result(orderResult, Duration.Inf)
-    if (orderJson.isEmpty || (orderJson.get \ "order").toString().equals("null")) {
+    val existingOrder = Json.fromJson[Orders]((orderJson.get \ "order")).getOrElse(Orders())
+    if (existingOrder.id.isEmpty) {
       val newOrderDetails = ListBuffer[OrderDetail]()
       cart.details.get.foreach { cartDetail => newOrderDetails += new OrderDetail(itemId = cartDetail.itemId, price = cartDetail.price, qty = cartDetail.qty) }
       val newOrder = Orders(sessionNumber = Some(cartSessionNumber), ip = Some(request.remoteAddress), detail = newOrderDetails.toList)
@@ -86,8 +87,6 @@ class OrderController extends Controller with ProvidesHeader with JsonConverters
 
       Ok(views.html.order.detail(Json.fromJson[Orders]((updatedOrder \ "order")).get, fillOrderForm((updatedOrder \ "customer").asOpt[JsValue])))
     } else {
-      val existingOrder = Json.fromJson[Orders]((orderJson.get \ "order")).get
-
       val result: Future[JsValue] =
         WS.url("http://localhost:8080/bazzar_online/order/")
           .withRequestTimeout(2000)
